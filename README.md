@@ -1,25 +1,15 @@
-# Grafik Pracy PWA — wersja 2.0 (szyfrowana)
+# Grafik Pracy PWA — wersja 2.1
 
-## GitHub Pages
-1. Utwórz publiczne repozytorium GitHub i wgraj **zawartość** tego katalogu do głównego folderu repozytorium.
-2. Settings → Pages → Build and deployment → Deploy from a branch → main → / (root) → Save.
-3. Otwórz podany adres HTTPS. W Safari na iPhonie wybierz Udostępnij → Dodaj do ekranu początkowego.
-4. Przy pierwszym uruchomieniu ustaw hasło co najmniej 10 znaków. Przechowuj je bezpiecznie.
+Naprawiono dodawanie seryjne: formularz używa dat od/do, a nie nieistniejącego pola date. Poprawiono obliczanie zakresu przez zmianę czasu letniego/zimowego. Dodano odstępy safe-area dla Dynamic Island i dolnego wskaźnika gestów iPhone 15 Pro oraz wygodniejsze formularze mobilne. Zmieniono cache service workera na network-first, aby aktualizacje na GitHub Pages docierały do zainstalowanej aplikacji, gdy jest internet.
+
+## Aktualizacja GitHub Pages
+Wgraj i zastąp wszystkie pliki w głównym katalogu repozytorium. Nie zmieniaj domeny ani ścieżki aplikacji. Po publikacji uruchom aplikację z dostępem do internetu i odśwież ją; w razie potrzeby zamknij i uruchom ponownie aplikację z ekranu głównego.
+
+## Test
+Otwórz Dodawanie seryjne → Ustaw zakres, wybierz od/do, godziny i stawkę, naciśnij Dodaj zmiany i zatwierdź. Sprawdź miesiąc i sumę godzin.
 
 ## Prywatność
-- GitHub Pages jest PUBLICZNY: każdy może otworzyć kod aplikacji, ale nie ma dostępu do lokalnego grafiku użytkownika.
-- Grafik jest szyfrowany AES-256-GCM przy użyciu klucza pochodzącego z hasła (PBKDF2 SHA-256, 310 000 iteracji), a zapisany wyłącznie lokalnie w przeglądarce.
-- Każda instalacja przeglądarki ma własny magazyn. Nie jest to sprzętowe przypisanie do jednego telefonu.
-- Automatyczna blokada po 5 minutach bezczynności, a po ukryciu aplikacji po około 1 minucie (czas zależy od ograniczeń iOS).
-- Eksport CSV jest NIEZASZYFROWANY. Preferuj zaszyfrowane kopie JSON.
-- Utrata hasła lub danych przeglądarki bez kopii = nieodwracalna utrata grafiku.
-- Na wspólnym urządzeniu inni mogą odczytać dane podczas odblokowanej sesji.
-- Wersja 1: stare dane localStorage są przenoszone po utworzeniu hasła. Przed migracją wykonaj własną kopię, jeśli to możliwe.
-- Strona nie chroni przed złośliwym kodem dodanym do repozytorium, rozszerzeniami przeglądarki ani przejęciem konta GitHub. Włącz 2FA na GitHub.
-- To nie jest system kont użytkowników ani prawdziwe blokowanie urządzenia. Aby ukryć całą stronę, zastosuj hosting z kontrolą dostępu po stronie serwera (np. Cloudflare Access).
+Zachowano ten sam format szyfrowanych danych localStorage (`grafik-secure-v2`), hasło i kopie. Nie usuwaj danych Safari/PWA. Przed aktualizacją wykonaj zaszyfrowaną kopię zapasową. GitHub Pages pozostaje publiczny — kod strony jest dostępny wszystkim, a zapisany lokalnie grafik nie jest wysyłany na GitHub.
 
-## Uruchamianie
-Wymagane HTTPS (GitHub Pages) lub localhost. Bezpośrednie otwieranie pliku index.html może nie działać z Web Crypto i service workerem.
-
-## Pliki
-index.html, style.css, app.js, security.js, sw.js, manifest.webmanifest, icon-192.png, icon-512.png.
+## Uruchomienie
+Wymagany HTTPS (GitHub Pages) lub localhost. Na iPhonie Safari → Udostępnij → Dodaj do ekranu początkowego.
