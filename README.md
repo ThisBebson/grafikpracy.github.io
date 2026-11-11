@@ -1,34 +1,18 @@
-# Grafik Pracy PWA — wersja 2.1
+# Grafik Pracy PWA v2.4
 
-Naprawiono dodawanie seryjne: formularz używa dat od/do, a nie nieistniejącego pola date. Poprawiono obliczanie zakresu przez zmianę czasu letniego/zimowego. Dodano odstępy safe-area dla Dynamic Island i dolnego wskaźnika gestów iPhone 15 Pro oraz wygodniejsze formularze mobilne. Zmieniono cache service workera na network-first, aby aktualizacje na GitHub Pages docierały do zainstalowanej aplikacji, gdy jest internet.
+Wgraj wszystkie pliki do tego samego repozytorium GitHub Pages, zachowując adres aplikacji. Nie usuwaj aplikacji z iPhone ani danych Safari.
 
-## Aktualizacja GitHub Pages
-Wgraj i zastąp wszystkie pliki w głównym katalogu repozytorium. Nie zmieniaj domeny ani ścieżki aplikacji. Po publikacji uruchom aplikację z dostępem do internetu i odśwież ją; w razie potrzeby zamknij i uruchom ponownie aplikację z ekranu głównego.
+## Migracja danych
+Jeśli poprzednia wersja używała hasła, **przy pierwszym uruchomieniu v2.4 wpisz dotychczasowe hasło jeden raz**. Aplikacja odszyfruje grafik i zapisze go lokalnie bez hasła. Stary zaszyfrowany zapis pozostaje nietknięty jako awaryjna kopia. Bez starego hasła nie można odzyskać zaszyfrowanych wpisów.
+
+Po migracji zrób nową kopię JSON. Dane nie są już szyfrowane w pamięci przeglądarki ani w kopii JSON. Na GitHub Pages trafia tylko kod, nie Twoje dane. Każde urządzenie ma własne dane. Nie jest to mechanizm autoryzacji dostępu do samej strony.
+
+## Zmiany
+- Osobne kolorowe bloczki notatek w kalendarzu i liście zmian
+- Paleta siedmiu kolorów w formularzu pojedynczym i seryjnym
+- Brak blokady hasłem po migracji
+- Zachowane widoki miesiąc/tydzień, podsumowania, święta i kopie
+- Import nowych kopii JSON i starych szyfrowanych kopii z hasłem
 
 ## Test
-Otwórz Dodawanie seryjne → Ustaw zakres, wybierz od/do, godziny i stawkę, naciśnij Dodaj zmiany i zatwierdź. Sprawdź miesiąc i sumę godzin.
-
-## Prywatność
-Zachowano ten sam format szyfrowanych danych localStorage (`grafik-secure-v2`), hasło i kopie. Nie usuwaj danych Safari/PWA. Przed aktualizacją wykonaj zaszyfrowaną kopię zapasową. GitHub Pages pozostaje publiczny — kod strony jest dostępny wszystkim, a zapisany lokalnie grafik nie jest wysyłany na GitHub.
-
-## Uruchomienie
-Wymagany HTTPS (GitHub Pages) lub localhost. Na iPhonie Safari → Udostępnij → Dodaj do ekranu początkowego.
-
-
-## v2.2
-- Kalendarz miesięczny i tygodniowy; strzałki przesuwają odpowiednio miesiąc lub tydzień.
-- W kafelkach dni widać godziny każdej zmiany i skróconą notatkę. Pełna notatka jest widoczna po wybraniu dnia.
-- Lista „Zmiany w miesiącu” domyślnie zwinięta, można ją rozwinąć.
-- Podsumowanie roczne zarobków i godzin dla roku widocznego w kalendarzu.
-- Format zaszyfrowanych danych i hasło pozostają bez zmian.
-- Przed aktualizacją wykonaj zaszyfrowaną kopię zapasową; podmień pliki na GitHub Pages, nie usuwaj danych Safari.
-
-
-## Wersja 2.3
-- Jeden selektor widoku: Miesiąc / Tydzień / Dzisiaj.
-- Zwijanie listy zmian pojedynczą strzałką (obraca się po rozwinięciu).
-- Podsumowanie roczne liczone z wszystkich zmian roku aktualnie wyświetlanego.
-- Odświeżone pliki statyczne i cache PWA (v2.3).
-- Zachowano szyfrowany format danych v2, bez migracji i resetowania hasła.
-
-**Uwaga:** przed aktualizacją wykonaj szyfrowaną kopię zapasową. Po wdrożeniu GitHub Pages uruchom aplikację online ponownie. Nie usuwaj danych Safari.
+Sprawdź na iPhonie: liczbę starych zmian, zarobki roczne, edycję notatki, dodawanie seryjne i eksport/import. Nie czyść danych Safari przed zrobieniem kopii.
