@@ -25,3 +25,11 @@ dialog .modal { padding-bottom: max(20px, env(safe-area-inset-bottom, 0px)); }
  .modal { padding: 16px; gap: 12px; }
  .actions { position: sticky; bottom: 0; background: #1b1d2b; padding: 8px 0 2px; z-index: 1; }
 }
+
+/* v2.2 calendar and annual summary */
+.year-total{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 0 0;border-top:1px solid #ffffff45}
+.year-total small{margin:0;flex:1 1 100%;}.year-total strong{font-size:23px}.year-total>span{font-size:12px;color:#eee9ff}
+.view-switch{display:flex;gap:6px;margin:0 0 14px}.view-switch button{flex:1;border:1px solid #46425e}.view-switch button.active{background:#9276f3;color:white;font-weight:700}
+.day{height:auto;min-height:90px;overflow:hidden;align-items:stretch;gap:3px;text-align:left;padding:6px 3px}.day .num{text-align:center;align-self:center}.cal-shift{display:flex;flex-direction:column;gap:2px;max-width:100%;border-radius:5px;background:#6553a15c;padding:3px 2px;overflow:hidden}.cal-time{font-size:clamp(7px,1.5vw,10px);font-weight:700;line-height:1.2;letter-spacing:-.25px;white-space:nowrap;text-align:center}.cal-note{font-size:9px;line-height:1.2;overflow-wrap:anywhere;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#e0d9ff}.holiday-mark{color:#ff9ba7;font-size:10px;text-align:center}.day.week-view{min-height:110px}.calendar.week-view .day{min-height:118px}.calendar.week-view .cal-note{-webkit-line-clamp:4}
+.list-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.list-actions button{font-size:12px;padding:8px}.entries[hidden]{display:none}
+@media(max-width:420px){.day{min-height:86px;padding:5px 2px}.cal-time{font-size:7.5px;letter-spacing:-.4px}.cal-note{font-size:8px}.calendar.week-view .day{min-height:120px}.sectionhead{flex-wrap:wrap}.list-actions{width:100%;justify-content:space-between}}

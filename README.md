@@ -13,3 +13,12 @@ Zachowano ten sam format szyfrowanych danych localStorage (`grafik-secure-v2`), 
 
 ## Uruchomienie
 Wymagany HTTPS (GitHub Pages) lub localhost. Na iPhonie Safari → Udostępnij → Dodaj do ekranu początkowego.
+
+
+## v2.2
+- Kalendarz miesięczny i tygodniowy; strzałki przesuwają odpowiednio miesiąc lub tydzień.
+- W kafelkach dni widać godziny każdej zmiany i skróconą notatkę. Pełna notatka jest widoczna po wybraniu dnia.
+- Lista „Zmiany w miesiącu” domyślnie zwinięta, można ją rozwinąć.
+- Podsumowanie roczne zarobków i godzin dla roku widocznego w kalendarzu.
+- Format zaszyfrowanych danych i hasło pozostają bez zmian.
+- Przed aktualizacją wykonaj zaszyfrowaną kopię zapasową; podmień pliki na GitHub Pages, nie usuwaj danych Safari.
