@@ -10,12 +10,11 @@ function render(){
  const y=view.getFullYear(),m=view.getMonth(),h=holidays(y),all=monthEntries();
  $('hours').textContent=fmtHours(all.reduce((a,e)=>a+duration(e),0));
  $('earnings').textContent=money(all.reduce((a,e)=>a+pay(e),0));
- const yearly=entries.filter(e=>e.date.startsWith(y+'-'));
+ const yearly=entries.filter(e=>typeof e.date==='string' && Number(e.date.slice(0,4))===y);
  $('yearLabel').textContent=y;
  $('yearEarnings').textContent=money(yearly.reduce((a,e)=>a+pay(e),0));
  $('yearHours').textContent=fmtHours(yearly.reduce((a,e)=>a+duration(e),0));
- $('monthMode').classList.toggle('active',calendarMode==='month');$('weekMode').classList.toggle('active',calendarMode==='week');
- $('monthMode').setAttribute('aria-pressed',String(calendarMode==='month'));$('weekMode').setAttribute('aria-pressed',String(calendarMode==='week'));
+ $('calendarView').value=calendarMode;
  const first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate();
  let dates=[];
  if(calendarMode==='month'){
@@ -39,7 +38,7 @@ function render(){
  $('dayEntries').innerHTML=renderEntries(dayEntries(selected),false);
  $('monthEntries').innerHTML=renderEntries(all,true);
  $('monthEntries').hidden=!monthListOpen;
- $('toggleMonthEntries').textContent=monthListOpen?'Zwiń ▴':'Rozwiń ▾';
+ $('toggleMonthEntries').setAttribute('aria-label',monthListOpen?'Zwiń listę zmian':'Rozwiń listę zmian');
  $('toggleMonthEntries').setAttribute('aria-expanded',String(monthListOpen));
  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
  document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>removeEntry(b.dataset.delete));
@@ -54,8 +53,8 @@ async function removeEntry(id){if(!confirm('Usunąć tę zmianę?'))return;const
 $('bulkOpen').onclick=()=>{const f=$('bulkForm');f.reset();f.elements.from.value=selected;const to=parseDate(selected);to.setDate(to.getDate()+4);f.elements.to.value=dateKey(to);f.elements.rate.value='30';$('bulkError').textContent='';$('bulkDialog').showModal()};$('bulkForm').onsubmit=async e=>{e.preventDefault();const f=e.currentTarget,from=f.elements.from.value,to=f.elements.to.value;const v=formValues(f);v.date=from;const err=valid(v);if(err){$('bulkError').textContent=err;return}if(!from||!to||from>to){$('bulkError').textContent='Podaj poprawny zakres dat.';return}const start=parseDate(from),end=parseDate(to);const span=Math.round((Date.UTC(end.getFullYear(),end.getMonth(),end.getDate())-Date.UTC(start.getFullYear(),start.getMonth(),start.getDate()))/86400000);if(span>366){$('bulkError').textContent='Maksymalny zakres to 367 dni.';return}const next=[];for(let i=0;i<=span;i++){const d=new Date(start);d.setDate(d.getDate()+i);const weekday=d.getDay(),key=dateKey(d);if(f.elements.weekdays.checked&&(weekday===0||weekday===6))continue;if(f.elements.skipHolidays.checked&&holidays(d.getFullYear())[key])continue;next.push({...v,date:key,id:crypto.randomUUID()})}if(!next.length){$('bulkError').textContent='Brak dni spełniających warunki.';return}if(!confirm(`Dodać ${next.length} zmian? Istniejące wpisy zostaną zachowane.`))return;const old=entries;entries=entries.concat(next);if(!await save()){entries=old;return}view=parseDate(from);view.setDate(1);selected=from;$('bulkDialog').close();render()};
 function navigate(step){if(calendarMode==='week'){const d=parseDate(selected);d.setDate(d.getDate()+7*step);selected=dateKey(d);view=parseDate(selected);view.setDate(1)}else{view.setMonth(view.getMonth()+step);selected=dateKey(new Date(view.getFullYear(),view.getMonth(),1))}render()}
 $('prev').onclick=()=>navigate(-1);$('next').onclick=()=>navigate(1);
-$('monthMode').onclick=()=>{calendarMode='month';render()};$('weekMode').onclick=()=>{calendarMode='week';render()};
-$('toggleMonthEntries').onclick=()=>{monthListOpen=!monthListOpen;render()};$('today').onclick=()=>{view=new Date();view.setDate(1);selected=dateKey(new Date());render()};$('addSingle').onclick=openNew;document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());$('export').onclick=()=>{if(!confirm('CSV NIE jest szyfrowany. Każdy, kto otrzyma plik, zobaczy godziny, stawki i notatki. Eksportować?'))return;const header=['Data','Od','Do','Stawka PLN/h','Przerwa min','Godziny','Zarobki PLN','Adnotacja'];const rows=monthEntries().map(e=>[e.date,e.start,e.end,e.rate,e.breakMin,duration(e).toFixed(2),pay(e).toFixed(2),e.note]);const csv='\ufeff'+[header,...rows].map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`grafik-${view.getFullYear()}-${pad(view.getMonth()+1)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('lockNow').onclick=Security.lock;
+$('calendarView').onchange=e=>{const mode=e.target.value;if(mode==='today'){selected=dateKey(new Date());view=parseDate(selected);view.setDate(1);calendarMode='month'}else{calendarMode=mode;}render()};
+$('toggleMonthEntries').onclick=()=>{monthListOpen=!monthListOpen;render()};$('addSingle').onclick=openNew;document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());$('export').onclick=()=>{if(!confirm('CSV NIE jest szyfrowany. Każdy, kto otrzyma plik, zobaczy godziny, stawki i notatki. Eksportować?'))return;const header=['Data','Od','Do','Stawka PLN/h','Przerwa min','Godziny','Zarobki PLN','Adnotacja'];const rows=monthEntries().map(e=>[e.date,e.start,e.end,e.rate,e.breakMin,duration(e).toFixed(2),pay(e).toFixed(2),e.note]);const csv='\ufeff'+[header,...rows].map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`grafik-${view.getFullYear()}-${pad(view.getMonth()+1)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};$('lockNow').onclick=Security.lock;
 function downloadFile(name,contents,type){const blob=new Blob([contents],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 $('backup').onclick=()=>{try{downloadFile('grafik-pracy-kopia-szyfrowana.json',Security.backup(),'application/json')}catch(e){alert(e.message)}};
 $('restore').onclick=()=>$('backupFile').click();

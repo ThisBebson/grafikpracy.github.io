@@ -22,3 +22,13 @@ Wymagany HTTPS (GitHub Pages) lub localhost. Na iPhonie Safari → Udostępnij �
 - Podsumowanie roczne zarobków i godzin dla roku widocznego w kalendarzu.
 - Format zaszyfrowanych danych i hasło pozostają bez zmian.
 - Przed aktualizacją wykonaj zaszyfrowaną kopię zapasową; podmień pliki na GitHub Pages, nie usuwaj danych Safari.
+
+
+## Wersja 2.3
+- Jeden selektor widoku: Miesiąc / Tydzień / Dzisiaj.
+- Zwijanie listy zmian pojedynczą strzałką (obraca się po rozwinięciu).
+- Podsumowanie roczne liczone z wszystkich zmian roku aktualnie wyświetlanego.
+- Odświeżone pliki statyczne i cache PWA (v2.3).
+- Zachowano szyfrowany format danych v2, bez migracji i resetowania hasła.
+
+**Uwaga:** przed aktualizacją wykonaj szyfrowaną kopię zapasową. Po wdrożeniu GitHub Pages uruchom aplikację online ponownie. Nie usuwaj danych Safari.
